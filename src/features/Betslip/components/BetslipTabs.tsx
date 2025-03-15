@@ -18,9 +18,7 @@ export function BetslipTabs({
         <button
           key={tab}
           onClick={() => onChange(tab)}
-          disabled={
-            tab === BetType.SINGLE ? selectionsCount > 1 : selectionsCount < 2
-          }
+          disabled={tab === BetType.MULTIPLE && selectionsCount < 2}
           className={cn(
             "flex-1 p-3 text-xs font-medium transition-colors relative",
             "disabled:opacity-50 disabled:cursor-not-allowed",

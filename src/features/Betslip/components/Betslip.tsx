@@ -17,6 +17,7 @@ export function Betslip() {
     handleBetslipPage,
   } = useBetslip();
 
+
   return (
     <div className="rounded-lg overflow-hidden">
       <BetslipHeader
@@ -35,6 +36,7 @@ export function Betslip() {
         bet={bet}
         onRemoveSelection={handleRemoveSelection}
         onClearAll={handleClearAll}
+        onStakeChange={handleStakeChange}
       />
 
       <BetslipFooter bet={bet} onStakeChange={handleStakeChange} />

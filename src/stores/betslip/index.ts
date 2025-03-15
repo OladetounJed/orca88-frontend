@@ -12,7 +12,7 @@ export interface BetslipState {
   bet: Bet;
   activeTab: BetType;
   betslipPage: BetSlipPage;
-  setStake: (value: string) => void;
+  setStake: (value: string, selectionId?: string) => void;
   removeSelection: (selectionId: string) => void;
   clearAll: () => void;
   addSelection: (selection: BetSelection) => void;
@@ -32,36 +32,42 @@ export const useBetslipStore = create<BetslipState>((set, get) => ({
   },
   showBetslip: false,
 
-  setStake: (value: string) => {
+  setStake: (value: string, selectionId?: string) => {
     const stake = parseFloat(value);
-    if (isNaN(stake)) {
+    const { bet } = get();
+
+    if (bet.type === BetType.SINGLE && selectionId) {
+      // Update individual selection stake
       set((state) => ({
         bet: {
           ...state.bet,
-          stake: undefined,
-          potentialWinnings: undefined,
+          selections: state.bet.selections.map((sel) =>
+            sel.id === selectionId
+              ? {
+                  ...sel,
+                  stake: isNaN(stake) ? undefined : stake,
+                  potentialWinnings: isNaN(stake)
+                    ? undefined
+                    : stake * sel.odds,
+                }
+              : sel
+          ),
         },
       }));
-      return;
+    } else {
+      // Update multiple bet stake
+      const potentialWin = isNaN(stake)
+        ? undefined
+        : stake * bet.selections.reduce((acc, sel) => acc * sel.odds, 1);
+
+      set((state) => ({
+        bet: {
+          ...state.bet,
+          stake: isNaN(stake) ? undefined : stake,
+          potentialWinnings: potentialWin,
+        },
+      }));
     }
-
-    const { bet } = get();
-    const potentialWin =
-      bet.type === BetType.SINGLE
-        ? stake * (bet.selections[0]?.odds || 0)
-        : stake *
-          bet.selections.reduce(
-            (acc: number, sel: BetSelection) => acc * sel.odds,
-            1
-          );
-
-    set((state) => ({
-      bet: {
-        ...state.bet,
-        stake,
-        potentialWinnings: Number(potentialWin.toFixed(2)),
-      },
-    }));
   },
 
   removeSelection: (selectionId: string) =>
@@ -91,12 +97,11 @@ export const useBetslipStore = create<BetslipState>((set, get) => ({
     })),
 
   setActiveTab: (tab: BetType) =>
-    set(() => ({
+    set((state) => ({
       activeTab: tab,
       bet: {
-        id: "1",
+        ...state.bet,
         type: tab,
-        selections: [],
       },
     })),
 

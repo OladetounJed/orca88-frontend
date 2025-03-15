@@ -1,4 +1,4 @@
-import { type Bet } from "@/types";
+import { type Bet, BetType } from "@/types";
 import { Trash2, X } from "lucide-react";
 import { BetslipEmptyState } from "./BetslipEmptyState";
 
@@ -6,12 +6,14 @@ interface BetslipContentProps {
   bet: Bet;
   onRemoveSelection: (id: string) => void;
   onClearAll: () => void;
+  onStakeChange: (value: string, selectionId?: string) => void;
 }
 
 export function BetslipContent({
   bet,
   onRemoveSelection,
   onClearAll,
+  onStakeChange,
 }: BetslipContentProps) {
   if (bet.selections.length === 0) {
     return <BetslipEmptyState />;
@@ -56,14 +58,41 @@ export function BetslipContent({
 
             <div className="flex items-center justify-between text-xs">
               <span className="text-gray-400">
-                {selection.selectedTeam === "home"
+                {selection.selectedTeam === "HOME"
                   ? selection.homeTeam
-                  : selection.selectedTeam === "away"
+                  : selection.selectedTeam === "AWAY"
                   ? selection.awayTeam
                   : "Draw"}
               </span>
               <span className="font-semibold">{selection.odds.toFixed(2)}</span>
             </div>
+
+            {bet.type === BetType.SINGLE && (
+              <div className="mt-2 space-y-2">
+                <div className="flex-1 relative">
+                  <input
+                    type="number"
+                    placeholder="Enter stake"
+                    value={selection.stake || ""}
+                    onChange={(e) =>
+                      onStakeChange(e.target.value, selection.id)
+                    }
+                    className="w-full bg-goku text-sm p-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-vegeta"
+                  />
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-400">
+                    oRCA
+                  </span>
+                </div>
+                {selection.stake && selection.potentialWinnings && (
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-gray-400">Potential Win</span>
+                    <span className="font-semibold text-piccolo">
+                      {selection.potentialWinnings.toFixed(2)} oRCA
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>

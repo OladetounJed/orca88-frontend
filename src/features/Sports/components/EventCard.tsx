@@ -1,5 +1,6 @@
-import type { Event } from "@/types";
+import { type Event, type BetSelection, BetSelectionType } from "@/types";
 import { useMarket } from "../hooks";
+import { useBetslip } from "@/features/Betslip/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface EventCardProps {
@@ -8,6 +9,30 @@ interface EventCardProps {
 
 export function EventCard({ event }: EventCardProps) {
   const { market, isLoading, error } = useMarket(event.id);
+  const { handleAddSelection, bet } = useBetslip();
+
+  const handleSelectOption = (optionName: string, odds: number) => {
+    // Check if selection already exists
+    const existingSelection = bet.selections.find(
+      (sel) => sel.matchId === event.id && sel.selectedTeam === optionName
+    );
+
+    if (existingSelection) return; // Don't add if already selected
+
+    const selection: BetSelection = {
+      id: `${event.id}-${optionName}`,
+      matchId: event.id,
+      homeTeam: event.homeTeamName,
+      awayTeam: event.awayTeamName,
+      league: event.league?.name || "",
+      odds: odds,
+      selectedTeam: optionName,
+    };
+
+    handleAddSelection(selection);
+  };
+
+  if (isLoading || !market) return null;
 
   return (
     <div className="rounded-lg p-4 space-y-4">
@@ -18,7 +43,9 @@ export function EventCard({ event }: EventCardProps) {
               LIVE
             </span>
           )}
-          {event.minute && <span className="text-sm">{event.minute}'</span>}
+          {event.minute && (
+            <span className="text-sm">{event.minute}&apos;</span>
+          )}
         </div>
       </div>
 
@@ -44,23 +71,39 @@ export function EventCard({ event }: EventCardProps) {
             No odds available
           </div>
         ) : (
-          market.options.map((option) => (
-            <button
-              key={option.id}
-              className="bg-goku rounded-md p-2 hover:bg-gokulight transition-colors"
-            >
-              <div className="text-piccolo text-[10px]">
-                {option.name === "HOME"
-                  ? event.homeTeamName
-                  : option.name === "AWAY"
-                  ? event.awayTeamName
-                  : "Draw"}
-              </div>
-              <div className="text-sm font-semibold">
-                {option.odds.toFixed(2)}
-              </div>
-            </button>
-          ))
+          market.options.map((option) => {
+            const isSelected = bet.selections.some(
+              (sel) =>
+                sel.matchId === event.id && sel.selectedTeam === option.name
+            );
+
+            return (
+              <button
+                key={option.id}
+                onClick={() => handleSelectOption(option.name, option.odds)}
+                className={`
+                  p-2 text-center rounded text-sm font-medium transition-colors
+                  ${
+                    isSelected
+                      ? "bg-vegeta text-white"
+                      : "bg-gokulight hover:bg-gokulight/80 text-white"
+                  }
+                `}
+                disabled={isSelected}
+              >
+                <div className="text-piccolo text-[10px]">
+                  {option.name === BetSelectionType.HOME
+                    ? event.homeTeamName
+                    : option.name === BetSelectionType.AWAY
+                    ? event.awayTeamName
+                    : "Draw"}
+                </div>
+                <div className="text-sm font-semibold">
+                  {option.odds.toFixed(2)}
+                </div>
+              </button>
+            );
+          })
         )}
       </div>
     </div>

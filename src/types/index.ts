@@ -26,6 +26,12 @@ export enum TransactionType {
   BET_REFUNDED = "BET_REFUNDED",
 }
 
+export enum BetSelectionType {
+  HOME = "HOME",
+  AWAY = "AWAY",
+  DRAW = "DRAW",
+}
+
 export interface Sport {
   id: string;
   key: string;
@@ -157,5 +163,6 @@ export interface BetSelection {
   league: string;
   odds: number;
   selectedTeam: string;
-  type: BetType;
+  stake?: number;
+  potentialWinnings?: number;
 }

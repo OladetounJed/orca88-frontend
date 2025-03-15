@@ -151,7 +151,6 @@ export const placeBet = async (
     userId: currentUser.id,
     type: betType,
     selections: betOptions.map((opt) => ({
-      // Convert betOptions to selections
       id: opt.id.toString(),
       matchId: opt.marketOption?.marketId || "",
       homeTeam: "", // Add required fields
@@ -159,7 +158,6 @@ export const placeBet = async (
       league: "",
       odds: opt.marketOption?.odds || 0,
       selectedTeam: opt.marketOption?.name || "",
-      type: betType,
     })),
     stake,
     potentialWinnings,
