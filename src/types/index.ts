@@ -15,8 +15,7 @@ export enum BetStatus {
 
 export enum BetType {
   SINGLE = "SINGLE",
-  PARLAY = "PARLAY",
-  SYSTEM = "SYSTEM",
+  MULTIPLE = "MULTIPLE",
 }
 
 export enum TransactionType {

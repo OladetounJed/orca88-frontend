@@ -4,6 +4,9 @@ import type { BetslipState } from "@/stores/betslip";
 export function useBetslip() {
   const bet = useBetslipStore((state: BetslipState) => state.bet);
   const activeTab = useBetslipStore((state: BetslipState) => state.activeTab);
+  const betslipPage = useBetslipStore(
+    (state: BetslipState) => state.betslipPage
+  );
   const setStake = useBetslipStore((state: BetslipState) => state.setStake);
   const removeSelection = useBetslipStore(
     (state: BetslipState) => state.removeSelection
@@ -21,6 +24,9 @@ export function useBetslip() {
   const showBetslip = useBetslipStore(
     (state: BetslipState) => state.showBetslip
   );
+  const setBetslipPage = useBetslipStore(
+    (state: BetslipState) => state.setBetslipPage
+  );
   return {
     bet,
     activeTab,
@@ -31,5 +37,7 @@ export function useBetslip() {
     handleTabChange: setActiveTab,
     handleShowBetslip: setShowBetslip,
     showBetslip,
+    betslipPage,
+    handleBetslipPage: setBetslipPage,
   };
 }

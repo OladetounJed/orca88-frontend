@@ -1,4 +1,4 @@
-import type { BetType } from "@/types";
+import { BetType } from "@/types";
 import { cn } from "@/lib/utils";
 
 interface BetslipTabsProps {
@@ -14,12 +14,12 @@ export function BetslipTabs({
 }: BetslipTabsProps) {
   return (
     <div className="flex border-b border-gokulight">
-      {(["Single", "Multiple"] as const).map((tab) => (
+      {(Object.values(BetType) as BetType[]).map((tab) => (
         <button
           key={tab}
           onClick={() => onChange(tab)}
           disabled={
-            tab === "Single" ? selectionsCount > 1 : selectionsCount < 2
+            tab === BetType.SINGLE ? selectionsCount > 1 : selectionsCount < 2
           }
           className={cn(
             "flex-1 p-3 text-xs font-medium transition-colors relative",

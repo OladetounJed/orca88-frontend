@@ -1,4 +1,4 @@
-import type { Bet } from "@/types";
+import { type Bet } from "@/types";
 import { Trash2, X } from "lucide-react";
 import { BetslipEmptyState } from "./BetslipEmptyState";
 
@@ -56,9 +56,9 @@ export function BetslipContent({
 
             <div className="flex items-center justify-between text-xs">
               <span className="text-gray-400">
-                {selection.type === "home"
+                {selection.selectedTeam === "home"
                   ? selection.homeTeam
-                  : selection.type === "away"
+                  : selection.selectedTeam === "away"
                   ? selection.awayTeam
                   : "Draw"}
               </span>

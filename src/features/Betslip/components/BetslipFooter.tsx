@@ -1,4 +1,4 @@
-import type { Bet } from "@/types";
+import { BetType, type Bet } from "@/types";
 
 interface BetslipFooterProps {
   bet: Bet;
@@ -11,7 +11,7 @@ export function BetslipFooter({ bet, onStakeChange }: BetslipFooterProps) {
   }
 
   const totalOdds =
-    bet.type === "Single"
+    bet.type === BetType.SINGLE
       ? bet.selections[0]?.odds || 0
       : bet.selections.reduce((acc, sel) => acc * sel.odds, 1);
 
@@ -38,11 +38,11 @@ export function BetslipFooter({ bet, onStakeChange }: BetslipFooterProps) {
           </div>
         </div>
 
-        {bet.stake && bet.potentialWin && (
+        {bet.stake && bet.potentialWinnings && (
           <div className="flex items-center justify-between text-xs">
             <span className="text-gray-400">Potential Win</span>
             <span className="font-semibold text-piccolo">
-              {bet.potentialWin.toFixed(2)} oRCA
+              {bet.potentialWinnings.toFixed(2)} oRCA
             </span>
           </div>
         )}

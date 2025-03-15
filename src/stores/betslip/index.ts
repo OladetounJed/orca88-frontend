@@ -3,9 +3,15 @@ import { create } from "zustand";
 import type { Bet, BetSelection } from "@/types";
 import { BetType } from "@/types";
 
+export enum BetSlipPage {
+  BETSLIP = "betslip",
+  MYBETS = "mybets",
+}
+
 export interface BetslipState {
   bet: Bet;
   activeTab: BetType;
+  betslipPage: BetSlipPage;
   setStake: (value: string) => void;
   removeSelection: (selectionId: string) => void;
   clearAll: () => void;
@@ -13,10 +19,12 @@ export interface BetslipState {
   setActiveTab: (tab: BetType) => void;
   showBetslip: boolean;
   setShowBetslip: (show: boolean) => void;
+  setBetslipPage: (state: BetSlipPage) => void;
 }
 
 export const useBetslipStore = create<BetslipState>((set, get) => ({
   activeTab: BetType.SINGLE,
+  betslipPage: BetSlipPage.BETSLIP,
   bet: {
     id: "1",
     type: BetType.SINGLE,
@@ -93,4 +101,5 @@ export const useBetslipStore = create<BetslipState>((set, get) => ({
     })),
 
   setShowBetslip: (show: boolean) => set({ showBetslip: show }),
+  setBetslipPage: (state: BetSlipPage) => set({ betslipPage: state }),
 }));

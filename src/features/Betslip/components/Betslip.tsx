@@ -4,11 +4,7 @@ import { BetslipContent } from "./BetslipContent";
 import { BetslipFooter } from "./BetslipFooter";
 import { useBetslip } from "../hooks";
 
-interface BetslipProps {
-  onClose?: () => void;
-}
-
-export function Betslip({ onClose }: BetslipProps) {
+export function Betslip() {
   const {
     bet,
     activeTab,
@@ -16,11 +12,18 @@ export function Betslip({ onClose }: BetslipProps) {
     handleRemoveSelection,
     handleClearAll,
     handleTabChange,
+    handleShowBetslip,
+    betslipPage,
+    handleBetslipPage,
   } = useBetslip();
 
   return (
-    <div className="bg-goku rounded-lg overflow-hidden">
-      <BetslipHeader onClose={onClose} />
+    <div className="rounded-lg overflow-hidden">
+      <BetslipHeader
+        handleShowBetslip={handleShowBetslip}
+        betslipPage={betslipPage}
+        handleBetslipPage={handleBetslipPage}
+      />
 
       <BetslipTabs
         activeTab={activeTab}
