@@ -1,26 +1,107 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
-}
+} */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
+
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 6%; /* #0f0f0f */
+    --foreground: 0 0% 3.9%; /* #171717 */
+    --card: 0 0% 100%; /* #ffffff */
+    --card-foreground: 0 0% 3.9%; /* #171717 */
+    --popover: 0 0% 100%; /* #ffffff */
+    --popover-foreground: 0 0% 3.9%; /* #171717 */
+    --primary: 0 0% 9%; /* #0a0a0a */
+    --primary-foreground: 0 0% 98%; /* #fafafa */
+    --secondary: 0 0% 96.1%; /* #f5f5f5 */
+    --secondary-foreground: 0 0% 9%; /* #0a0a0a */
+    --muted: 0 0% 96.1%; /* #f5f5f5 */
+    --muted-foreground: 0 0% 45.1%; /* #767676 */
+    --accent: 0 0% 96.1%; /* #f5f5f5 */
+    --accent-foreground: 0 0% 9%; /* #0a0a0a */
+    --destructive: 0 84.2% 60.2%; /* #e60000 */
+    --destructive-foreground: 0 0% 98%; /* #fafafa */
+    --border: 0 0% 89.8%; /* #e0e0e0 */
+    --input: 0 0% 89.8%; /* #e0e0e0 */
+    --ring: 0 0% 3.9%; /* #171717 */
+    --chart-1: 12 76% 61%; /* #ff8c00 */
+    --chart-2: 173 58% 39%; /* #00bfff */
+    --chart-3: 197 37% 24%; /* #4b0082 */
+    --chart-4: 43 74% 66%; /* #00ff7f */
+    --chart-5: 27 87% 67%; /* #ff4500 */
+    --radius: 0.5rem;
+    --goku: 0, 0%, 13%, 1; /* #212121 */
+    --gokulight: 0, 0%, 16%; /* #282828 */
+    --gokudark: 0, 0%, 6%, 1; /* #0f0f0f */
+    --vegeta: 211, 100%, 58%; /* #007fff */
+    --hit: 135, 77%, 55%; /* #00ff7f */
+    --dodoria: 3, 100%, 59%; /* #ff4500 */
+    --beerus: 0, 0%, 67%; /* #ababab */
+    --zeno: 221, 22%, 17%; /* #2b2b2b */
+    --trunks: 215, 16%, 47%; /* #7a7a7a */
+    --popo: 351, 100%, 65%; /* #ff4e64 */
+    --gohan: 236, 13%, 50%; /* #7a7a7a */
+    --broly: 210, 40%, 96%, 1; /* ##F1F5F9 */
+    --bulma: 0, 0%, 0%; /* #000000 */
+    --krillin: 42, 100%, 62%; /* #ffd700 */
+    --chichi: 353, 100%, 65%; /* #ff69b4 */
+    --chichilight: 353, 100%, 65%, 0.2; /* #ff69b4 */
+    --vegetalight: 0, 0%, 12%; /* #1e1e1e */
+    --piccolo: 135, 77%, 55%; /* #32E55E */
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+@layer base {
+  @font-face {
+    font-family: "Satoshi";
+    src: url("fonts/satoshi/Satoshi-Light.woff2") format("woff2"),
+      url("fonts/satoshi/Satoshi-Light.woff") format("woff"),
+      url("fonts/satoshi/Satoshi-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Satoshi";
+    src: url("fonts/satoshi/Satoshi-Regular.woff2") format("woff2"),
+      url("fonts/satoshi/Satoshi-Regular.woff") format("woff"),
+      url("fonts/satoshi/Satoshi-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Satoshi";
+    src: url("fonts/satoshi/Satoshi-Medium.woff2") format("woff2"),
+      url("fonts/satoshi/Satoshi-Medium.woff") format("woff"),
+      url("fonts/satoshi/Satoshi-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Satoshi";
+    src: url("fonts/satoshi/Satoshi-Bold.woff2") format("woff2"),
+      url("fonts/satoshi/Satoshi-Bold.woff") format("woff"),
+      url("fonts/satoshi/Satoshi-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border font-satoshi outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
