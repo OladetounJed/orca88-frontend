@@ -16,6 +16,11 @@ export interface BetslipState {
   removeSelection: (selectionId: string) => void;
   clearAll: () => void;
   addSelection: (selection: BetSelection) => void;
+  updateSelectionOdds: (
+    matchId: string,
+    selectedTeam: string,
+    newOdds: number
+  ) => void;
   setActiveTab: (tab: BetType) => void;
   showBetslip: boolean;
   setShowBetslip: (show: boolean) => void;
@@ -95,6 +100,51 @@ export const useBetslipStore = create<BetslipState>((set, get) => ({
         selections: [...state.bet.selections, selection],
       },
     })),
+
+  updateSelectionOdds: (
+    matchId: string,
+    selectedTeam: string,
+    newOdds: number
+  ) =>
+    set((state) => {
+      const { bet } = state;
+      const updatedSelections = bet.selections.map((sel) => {
+        if (sel.matchId === matchId && sel.selectedTeam === selectedTeam) {
+          // Update odds and recalculate potential winnings if there's a stake
+          return {
+            ...sel,
+            odds: newOdds,
+            potentialWinnings: sel.stake ? sel.stake * newOdds : undefined,
+          };
+        }
+        return sel;
+      });
+
+      // If it's a multiple bet, recalculate total potential winnings
+      if (bet.type === BetType.MULTI && bet.stake) {
+        const totalOdds = updatedSelections.reduce(
+          (acc, sel) => acc * sel.odds,
+          1
+        );
+        return {
+          ...state,
+          bet: {
+            ...bet,
+            selections: updatedSelections,
+            potentialWinnings: bet.stake * totalOdds,
+          },
+        };
+      }
+
+      // For single bets or when no stake is set
+      return {
+        ...state,
+        bet: {
+          ...bet,
+          selections: updatedSelections,
+        },
+      };
+    }),
 
   setActiveTab: (tab: BetType) =>
     set((state) => ({

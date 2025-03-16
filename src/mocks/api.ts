@@ -195,10 +195,16 @@ export const subscribeToLiveMarketUpdates = (
     const updatedOptions = liveEvents
       .map((event) => event.market)
       .filter((market): market is Market => !!market)
-      .flatMap((market) => market.options);
+      .flatMap((market) => market.options)
+      // Ensure odds are different by adding a small random increment
+      .map((option) => ({
+        ...option,
+        odds: +(option.odds + (Math.random() * 0.2 - 0.1)).toFixed(2), // Add/subtract up to 0.1
+        lastUpdated: new Date().toISOString(),
+      }));
 
     onUpdate(updatedOptions);
-  }, 30000);
+  }, 5000); // Update every 5 seconds instead of 30 seconds
 
   return () => clearInterval(interval);
 };

@@ -3,6 +3,7 @@ import { BetslipTabs } from "./BetslipTabs";
 import { BetslipContent } from "./BetslipContent";
 import { BetslipFooter } from "./BetslipFooter";
 import { useBetslip } from "../hooks";
+import { useBetslipMarketUpdates } from "../hooks/useBetslipMarketUpdates";
 
 export function Betslip() {
   const {
@@ -17,6 +18,8 @@ export function Betslip() {
     handleBetslipPage,
   } = useBetslip();
 
+  // Subscribe to market updates
+  useBetslipMarketUpdates();
 
   return (
     <div className="rounded-lg overflow-hidden space-y-6">
