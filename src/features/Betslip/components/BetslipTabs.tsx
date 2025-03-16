@@ -13,24 +13,19 @@ export function BetslipTabs({
   selectionsCount,
 }: BetslipTabsProps) {
   return (
-    <div className="flex border-b border-gokulight">
+    <div className="flex p-1 bg-goku rounded-full w-fit text-white">
       {(Object.values(BetType) as BetType[]).map((tab) => (
         <button
           key={tab}
           onClick={() => onChange(tab)}
-          disabled={tab === BetType.MULTIPLE && selectionsCount < 2}
+          disabled={tab === BetType.MULTI && selectionsCount < 2}
           className={cn(
-            "flex-1 p-3 text-xs font-medium transition-colors relative",
+            "px-5 py-3 rounded-full text-xs font-normal",
             "disabled:opacity-50 disabled:cursor-not-allowed",
-            activeTab === tab
-              ? "text-white border-b-2 border-vegeta"
-              : "text-gray-400 hover:text-white"
+            activeTab === tab ? "bg-gokudark" : "hover:text-white"
           )}
         >
           {tab}
-          {selectionsCount > 0 && (
-            <span className="ml-1">({selectionsCount})</span>
-          )}
         </button>
       ))}
     </div>

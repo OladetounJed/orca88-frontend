@@ -3,7 +3,7 @@ import { User } from "lucide-react";
 import { useBetslip } from "@/features/Betslip/hooks";
 
 export function Footer() {
-  const { handleShowBetslip, showBetslip } = useBetslip();
+  const { handleShowBetslip, showBetslip, bet } = useBetslip();
 
   return (
     <div className="bg-gokudark fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md p-4 rounded-t-md">
@@ -13,6 +13,9 @@ export function Footer() {
           onClick={() => handleShowBetslip(!showBetslip)}
         >
           <BetslipIcon className="h-5 w-5" />
+          {bet.selections.length > 0 && (
+            <span className="text-xs font-normal">{bet.selections.length}</span>
+          )}
         </div>
 
         <button className="flex items-center gap-2 bg-goku px-4 py-2 rounded-lg w-full">

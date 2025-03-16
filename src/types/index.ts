@@ -6,6 +6,23 @@ export enum EventResult {
   AWAY_TEAM_WIN = "AWAY_TEAM_WIN",
 }
 
+export enum MatchState {
+  NOT_STARTED = "NOT_STARTED",
+  FIRST_HALF = "FIRST_HALF",
+  HALF_TIME = "HALF_TIME",
+  SECOND_HALF = "SECOND_HALF",
+  EXTRA_TIME = "EXTRA_TIME",
+  PENALTIES = "PENALTIES",
+  FULL_TIME = "FULL_TIME",
+  POSTPONED = "POSTPONED",
+  CANCELLED = "CANCELLED",
+  // Add more states as needed for different sports
+  BREAK = "BREAK", // Generic break state
+  TIMEOUT = "TIMEOUT",
+  QUARTER = "QUARTER",
+  PERIOD = "PERIOD",
+}
+
 export enum BetStatus {
   PENDING = "PENDING",
   WON = "WON",
@@ -14,8 +31,8 @@ export enum BetStatus {
 }
 
 export enum BetType {
-  SINGLE = "SINGLE",
-  MULTIPLE = "MULTIPLE",
+  SINGLE = "Single",
+  MULTI = "Multi",
 }
 
 export enum TransactionType {
@@ -85,6 +102,8 @@ export interface Event {
   result?: EventResult;
   // UI specific fields
   minute?: number;
+  matchState?: MatchState;
+  period?: number; // For sports with quarters/periods
   score?: {
     home: number;
     away: number;
@@ -161,8 +180,8 @@ export interface BetSelection {
   homeTeam: string;
   awayTeam: string;
   league: string;
+  selectedTeam: "HOME" | "DRAW" | "AWAY";
   odds: number;
-  selectedTeam: string;
   stake?: number;
   potentialWinnings?: number;
 }

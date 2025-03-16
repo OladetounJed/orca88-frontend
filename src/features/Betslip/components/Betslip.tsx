@@ -19,7 +19,7 @@ export function Betslip() {
 
 
   return (
-    <div className="rounded-lg overflow-hidden">
+    <div className="rounded-lg overflow-hidden space-y-6">
       <BetslipHeader
         handleShowBetslip={handleShowBetslip}
         betslipPage={betslipPage}

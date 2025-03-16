@@ -1,4 +1,9 @@
-import type { Event, Market, MarketOption } from "@/types";
+import {
+  MatchState,
+  type Event,
+  type Market,
+  type MarketOption,
+} from "@/types";
 
 // Helper function to generate random odds
 const randomOdds = (base: number = 2, variance: number = 1) =>
@@ -44,6 +49,11 @@ const generateMarket = (eventId: string): Market => {
   };
 };
 
+const randomMatchState = (): MatchState => {
+  const states = Object.values(MatchState);
+  return states[Math.floor(Math.random() * states.length)];
+};
+
 export const generateEvents = (leagueId: string, sportId: string): Event[] => {
   const now = new Date();
   const events: Event[] = [];
@@ -66,6 +76,8 @@ export const generateEvents = (leagueId: string, sportId: string): Event[] => {
       sportId,
       leagueId,
       market: generateMarket(`${leagueId}-live-${i}`),
+      matchState: randomMatchState(),
+      period: 1,
       scoreUpdates: [
         {
           id: `${leagueId}-live-${i}-score`,

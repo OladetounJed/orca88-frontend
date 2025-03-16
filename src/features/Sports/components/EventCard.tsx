@@ -2,6 +2,7 @@ import { type Event, type BetSelection, BetSelectionType } from "@/types";
 import { useMarket } from "../hooks";
 import { useBetslip } from "@/features/Betslip/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
+import { EventTimer } from "./EventTimer";
 
 interface EventCardProps {
   event: Event;
@@ -9,7 +10,7 @@ interface EventCardProps {
 
 export function EventCard({ event }: EventCardProps) {
   const { market, isLoading, error } = useMarket(event.id);
-  const { handleAddSelection, bet } = useBetslip();
+  const { handleAddSelection, handleRemoveSelection, bet } = useBetslip();
 
   const handleSelectOption = (optionName: string, odds: number) => {
     // Check if selection already exists
@@ -17,7 +18,10 @@ export function EventCard({ event }: EventCardProps) {
       (sel) => sel.matchId === event.id && sel.selectedTeam === optionName
     );
 
-    if (existingSelection) return; // Don't add if already selected
+    if (existingSelection) {
+      handleRemoveSelection(existingSelection.id);
+      return; // Don't add a new selection if we just removed one
+    }
 
     const selection: BetSelection = {
       id: `${event.id}-${optionName}`,
@@ -37,16 +41,13 @@ export function EventCard({ event }: EventCardProps) {
   return (
     <div className="rounded-lg p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          {event.isLive && (
-            <span className="bg-[#ff4e64]/20 text-popo text-xs font-semibold px-1 py-1 rounded">
-              LIVE
-            </span>
-          )}
-          {event.minute && (
-            <span className="text-sm">{event.minute}&apos;</span>
-          )}
-        </div>
+        <EventTimer
+          startTime={event.startTime}
+          isLive={event.isLive}
+          minute={event.minute}
+          matchState={event.matchState}
+          period={event.period}
+        />
       </div>
 
       <div className="flex justify-between items-center text-sm font-bold">
@@ -89,7 +90,6 @@ export function EventCard({ event }: EventCardProps) {
                       : "bg-gokulight hover:bg-gokulight/80 text-white"
                   }
                 `}
-                disabled={isSelected}
               >
                 <div className="text-piccolo text-[10px]">
                   {option.name === BetSelectionType.HOME

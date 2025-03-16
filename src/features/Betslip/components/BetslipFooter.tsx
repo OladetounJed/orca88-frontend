@@ -41,7 +41,7 @@ export function BetslipFooter({ bet, onStakeChange }: BetslipFooterProps) {
           <span className="font-semibold">{totalOdds.toFixed(2)}</span>
         </div>
 
-        {bet.type === BetType.MULTIPLE && (
+        {bet.type === BetType.MULTI && (
           <div className="flex items-center gap-2">
             <div className="flex-1 relative">
               <input
