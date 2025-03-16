@@ -1,4 +1,6 @@
 import { BetType, type Bet } from "@/types";
+import { AnimatedOdds } from "@/components/ui/AnimatedOdds";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 
 interface BetslipFooterProps {
   bet: Bet;
@@ -38,7 +40,7 @@ export function BetslipFooter({ bet, onStakeChange }: BetslipFooterProps) {
       <div className="space-y-2">
         <div className="flex items-center justify-between text-xs">
           <span className="text-gray-400">Total Odds</span>
-          <span className="font-semibold">{totalOdds.toFixed(2)}</span>
+          <AnimatedOdds odds={totalOdds} className="font-semibold" />
         </div>
 
         {bet.type === BetType.MULTI && (
@@ -62,15 +64,19 @@ export function BetslipFooter({ bet, onStakeChange }: BetslipFooterProps) {
           <>
             <div className="flex items-center justify-between text-xs">
               <span className="text-gray-400">Total Stake</span>
-              <span className="font-semibold">
-                {totalStake.toFixed(2)} oRCA
-              </span>
+              <AnimatedNumber
+                value={totalStake}
+                suffix=" oRCA"
+                className="font-semibold"
+              />
             </div>
             <div className="flex items-center justify-between text-xs">
               <span className="text-gray-400">Total Potential Win</span>
-              <span className="font-semibold text-piccolo">
-                {totalPotentialWinnings.toFixed(2)} oRCA
-              </span>
+              <AnimatedNumber
+                value={totalPotentialWinnings}
+                suffix=" oRCA"
+                className="font-semibold text-piccolo"
+              />
             </div>
           </>
         )}

@@ -1,6 +1,8 @@
 import { type Bet, BetType } from "@/types";
 import { Trash2, X } from "lucide-react";
 import { BetslipEmptyState } from "./BetslipEmptyState";
+import { AnimatedOdds } from "@/components/ui/AnimatedOdds";
+import { AnimatedNumber } from "@/components/ui/AnimatedNumber";
 
 interface BetslipContentProps {
   bet: Bet;
@@ -64,7 +66,7 @@ export function BetslipContent({
                   ? selection.awayTeam
                   : "Draw"}
               </span>
-              <span className="font-semibold">{selection.odds.toFixed(2)}</span>
+              <AnimatedOdds odds={selection.odds} />
             </div>
 
             {bet.type === BetType.SINGLE && (
@@ -86,9 +88,11 @@ export function BetslipContent({
                 {selection.stake && selection.potentialWinnings && (
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-gray-400">Potential Win</span>
-                    <span className="font-semibold text-piccolo">
-                      {selection.potentialWinnings.toFixed(2)} oRCA
-                    </span>
+                    <AnimatedNumber
+                      value={selection.potentialWinnings}
+                      suffix=" oRCA"
+                      className="font-semibold text-piccolo"
+                    />
                   </div>
                 )}
               </div>

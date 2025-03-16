@@ -3,6 +3,7 @@ import { useMarket } from "../hooks";
 import { useBetslip } from "@/features/Betslip/hooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EventTimer } from "./EventTimer";
+import { AnimatedOdds } from "@/components/ui/AnimatedOdds";
 
 interface EventCardProps {
   event: Event;
@@ -30,7 +31,7 @@ export function EventCard({ event }: EventCardProps) {
       awayTeam: event.awayTeamName,
       league: event.league?.name || "",
       odds: odds,
-      selectedTeam: optionName,
+      selectedTeam: optionName as BetSelectionType,
     };
 
     handleAddSelection(selection);
@@ -98,9 +99,7 @@ export function EventCard({ event }: EventCardProps) {
                     ? event.awayTeamName
                     : "Draw"}
                 </div>
-                <div className="text-sm font-semibold">
-                  {option.odds.toFixed(2)}
-                </div>
+                <AnimatedOdds odds={option.odds} />
               </button>
             );
           })
